@@ -27,7 +27,7 @@ async def get_routes_for_coordinate(lat: float, lon: float):
     coordinate = Coordinate(lat, lon)
     routes = await get_routes(coordinate)
     return {
-        'routes': routes
+        'routes': sorted(routes, key=lambda r: r.arrive_at)
     }
 
 @app.get("/routesForAddress")
@@ -36,5 +36,5 @@ async def get_routes_for_address(street: str, city: str, postalCode: str):
     coordinate = await find_coordinate(address)
     routes = await get_routes(coordinate)
     return {
-        'routes': routes
+        'routes': sorted(routes, key=lambda r: r.arrive_at)
     }
