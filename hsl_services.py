@@ -12,12 +12,19 @@ transport = AIOHTTPTransport(url='https://api.digitransit.fi/routing/v1/routers/
 
 
 @dataclass
+class Station:
+    name: str
+    code: str
+    position: Coordinate
+
+
+@dataclass
 class Route:
     name: str
     mode: str
     head_sign: str
     arrive_at: int
-    coordinate: Coordinate
+    stop: Station
 
 
 async def get_routes(coordinate: Coordinate, radius=500, numDepartures=2):
@@ -28,6 +35,7 @@ async def get_routes(coordinate: Coordinate, radius=500, numDepartures=2):
 
         for stop in parsed:
             coordinate = Coordinate(stop.value['lat'], stop.value['lon'])
+            station = Station(stop.value['lat'], stop.value['lat'], coordinate)
 
             for route in stop.value['stoptimesWithoutPatterns']:
                 name = route['trip']['route']['shortName']
@@ -35,7 +43,7 @@ async def get_routes(coordinate: Coordinate, radius=500, numDepartures=2):
                 head_sign = route['headsign']
                 arrive_at = route['serviceDay'] + route['realtimeArrival']
 
-                route = Route(name, mode, head_sign, arrive_at, coordinate)
+                route = Route(name, mode, head_sign, arrive_at, station)
                 yield route
 
     query = gql(
@@ -47,6 +55,8 @@ async def get_routes(coordinate: Coordinate, radius=500, numDepartures=2):
                         stop {
                             lat
                             lon
+                            name
+                            code
                             stoptimesWithoutPatterns(numberOfDepartures: $numDepartures) {
                                 headsign
                                 realtimeArrival
