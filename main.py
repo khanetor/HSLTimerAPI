@@ -38,16 +38,3 @@ async def get_routes_for_address(street: str, city: str, postalCode: str):
     return {
         'routes': routes
     }
-
-
-### ----------------- ALEXA ----------------- ###
-from pydantic import BaseModel
-
-
-class AlexaRequest(BaseModel):
-    name: str
-
-
-@app.post("/alexa/routesForAddress")
-async def get_routes_for_address_alexa_handler(request: AlexaRequest):
-    return "Place holder to handle Alexa request"
