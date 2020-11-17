@@ -27,7 +27,7 @@ class Route:
     stop: Station
 
 
-async def get_routes(coordinate: Coordinate, radius=500, numDepartures=2) -> List[Route]:
+async def get_routes(coordinate: Coordinate, radius=500, numDepartures=20) -> List[Route]:
 
     def parseHSLResponse(json):
         jsonpath_expr = parse('$.stopsByRadius.edges[*].node.stop[*]')
