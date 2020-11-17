@@ -22,12 +22,12 @@ class Station:
 class Route:
     name: str
     mode: str
-    head_sign: str
+    headsign: str
     arrive_at: int
     stop: Station
 
 
-async def get_routes(coordinate: Coordinate, radius=500, numDepartures=2):
+async def get_routes(coordinate: Coordinate, radius=500, numDepartures=2) -> List[Route]:
 
     def parseHSLResponse(json):
         jsonpath_expr = parse('$.stopsByRadius.edges[*].node.stop[*]')
@@ -40,10 +40,10 @@ async def get_routes(coordinate: Coordinate, radius=500, numDepartures=2):
             for route in stop.value['stoptimesWithoutPatterns']:
                 name = route['trip']['route']['shortName']
                 mode = route['trip']['route']['mode']
-                head_sign = route['headsign']
+                headsign = route['headsign']
                 arrive_at = route['serviceDay'] + route['realtimeArrival']
 
-                route = Route(name, mode, head_sign, arrive_at, station)
+                route = Route(name, mode, headsign, arrive_at, station)
                 yield route
 
     query = gql(
@@ -85,5 +85,5 @@ async def get_routes(coordinate: Coordinate, radius=500, numDepartures=2):
     async with Client(transport=transport, fetch_schema_from_transport=True) as session:
         result = await session.execute(query, variable_values=params)
     
-    data = parseHSLResponse(result)
+    data = list(parseHSLResponse(result))
     return data
