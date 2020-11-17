@@ -19,14 +19,21 @@ class Route:
     arrive_at: int
 
 
-async def get_routes(coordinate: Coordinate):
+async def get_routes(coordinate: Coordinate) -> List[Route]:
 
     def parseHSLResponse(json):
         jsonpath_expr = parse('$.stopsByRadius.edges[*].node.stop[*].stoptimesWithoutPatterns')
         parsed = jsonpath_expr.find(json)
 
         for stop in parsed:
-            yield stop.value
+            for route in stop.value:
+                name = route['trip']['route']['shortName']
+                mode = route['trip']['route']['mode']
+                head_sign = route['headsign']
+                arrive_at = route['serviceDay'] + route['realtimeArrival']
+
+                route = Route(name, mode, head_sign, arrive_at)
+                yield route
 
     numDepartures = 3
     radius = 300
