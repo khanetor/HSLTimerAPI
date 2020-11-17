@@ -1,10 +1,16 @@
 language: python
 python:
-  - "3.8"
   - "3.9"
 
 install:
   - pip install -r requirements.txt
 
 script:
-  - pytest
+  - echo "Ready to deploy"
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: Rm6CL/1MBaDMQT/L67jueVWtfqgWfoDBFqluS6a7uH9qNxVNGKf0cb6egnuPJWBr6HW7t2CMqA48Dzh0nSS4Ygnoa9LW7KSp0z6t0/ImSGbMv9gvlmqUZUGC/0ELKmR2mf2ZcgNqAPCbbID0Guwyih0T7G8puNjzlZcf+y8MvFnt1OYCagg5GCMTxjkWrOsVrQmNGK3j+xqN/U/HrRVI2YS0zqx77SYt1SFMqDkD6ZT+CdMQt0ARcbQxd3dh/Ra5WZhmLWrESBQotVN2ii622HfFdoDOaBpm/BWoGxTL9V5EQUPSEat0tqcZ2QcQ4CvvibNB/jDIBCDlSc0Ouqd7BgKx3xTWMjCqxx9vMTBUxh3HO5GugDuY530cW+KtiTasmTv43lT4bBJHSF0TOVzLrjubVzoGTQr/zE5RQNdTIDTKRPOtLtdapBCoc1L6TJLvn719yGpHkCsreZx4zWMxJbZeHZXjPDgXzHxbXjcU6mbYtTqY7+Af0iKB9yhOgE2+aJHvKdopV1omju/nik/++qpuHMHzOXtXZPReuaerOz50JFQq8NcynXKkLQ1Vd+IKAv/wL+TIdIAq38E26KF6cQQAWzpaJogc1LGcSdDZ3Vs3jkL2y35CRg6XV8iByzFRUw1DPrasdldQ6416B6hAw1IbQJvJ4uHgWAltwX69mDE=
+  app:
+    master: hsl-timer-api
