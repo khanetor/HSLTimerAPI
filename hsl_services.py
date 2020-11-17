@@ -17,22 +17,25 @@ class Route:
     mode: str
     head_sign: str
     arrive_at: int
+    coordinate: Coordinate
 
 
-async def get_routes(coordinate: Coordinate, radius=500, numDepartures=2) -> List[Route]:
+async def get_routes(coordinate: Coordinate, radius=500, numDepartures=2):
 
     def parseHSLResponse(json):
-        jsonpath_expr = parse('$.stopsByRadius.edges[*].node.stop[*].stoptimesWithoutPatterns')
+        jsonpath_expr = parse('$.stopsByRadius.edges[*].node.stop[*]')
         parsed = jsonpath_expr.find(json)
 
         for stop in parsed:
-            for route in stop.value:
+            coordinate = Coordinate(stop.value['lat'], stop.value['lon'])
+
+            for route in stop.value['stoptimesWithoutPatterns']:
                 name = route['trip']['route']['shortName']
                 mode = route['trip']['route']['mode']
                 head_sign = route['headsign']
                 arrive_at = route['serviceDay'] + route['realtimeArrival']
 
-                route = Route(name, mode, head_sign, arrive_at)
+                route = Route(name, mode, head_sign, arrive_at, coordinate)
                 yield route
 
     query = gql(
@@ -42,6 +45,8 @@ async def get_routes(coordinate: Coordinate, radius=500, numDepartures=2) -> Lis
                 edges {
                     node {
                         stop {
+                            lat
+                            lon
                             stoptimesWithoutPatterns(numberOfDepartures: $numDepartures) {
                                 headsign
                                 realtimeArrival
