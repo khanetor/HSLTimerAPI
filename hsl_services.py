@@ -19,7 +19,7 @@ class Route:
     arrive_at: int
 
 
-async def get_routes(coordinate: Coordinate) -> List[Route]:
+async def get_routes(coordinate: Coordinate, radius=500, numDepartures=2) -> List[Route]:
 
     def parseHSLResponse(json):
         jsonpath_expr = parse('$.stopsByRadius.edges[*].node.stop[*].stoptimesWithoutPatterns')
@@ -34,9 +34,6 @@ async def get_routes(coordinate: Coordinate) -> List[Route]:
 
                 route = Route(name, mode, head_sign, arrive_at)
                 yield route
-
-    numDepartures = 3
-    radius = 300
 
     query = gql(
     """

@@ -29,3 +29,12 @@ async def get_routes_for_coordinate(lat: float, lon: float):
     return {
         'routes': routes
     }
+
+@app.get("/routesForAddress")
+async def get_routes_for_address(street: str, city: str, postalCode: str):
+    address = Address(street, city, 'Finland', postalCode)
+    coordinate = await find_coordinate(address)
+    routes = await get_routes(coordinate)
+    return {
+        'routes': routes
+    }
