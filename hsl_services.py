@@ -1,4 +1,4 @@
-from typing import List
+from typing import Iterable
 from dataclasses import dataclass
 
 from gql import gql, Client
@@ -27,7 +27,7 @@ class Route:
     stop: Station
 
 
-async def get_routes(coordinate: Coordinate, radius=500, numDepartures=20) -> List[Route]:
+async def get_routes(coordinate: Coordinate, radius=500, numDepartures=20) -> Iterable[Route]:
 
     def parseHSLResponse(json):
         jsonpath_expr = parse('$.stopsByRadius.edges[*].node.stop[*]')
@@ -85,5 +85,5 @@ async def get_routes(coordinate: Coordinate, radius=500, numDepartures=20) -> Li
     async with Client(transport=transport, fetch_schema_from_transport=True) as session:
         result = await session.execute(query, variable_values=params)
     
-    data = list(parseHSLResponse(result))
+    data = parseHSLResponse(result)
     return data
