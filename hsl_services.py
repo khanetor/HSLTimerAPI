@@ -38,13 +38,14 @@ async def get_routes(coordinate: Coordinate, radius=500, numDepartures=20) -> It
             station = Station(stop.value['name'], stop.value['code'], coordinate)
 
             for route in stop.value['stoptimesWithoutPatterns']:
-                name = route['trip']['route']['shortName']
-                mode = route['trip']['route']['mode']
-                headsign = route['headsign']
-                arrive_at = route['serviceDay'] + route['realtimeArrival']
+                if route['headsign'] is not None:
+                    name = route['trip']['route']['shortName']
+                    mode = route['trip']['route']['mode']
+                    headsign = route['headsign']
+                    arrive_at = route['serviceDay'] + route['realtimeArrival']
 
-                route = Route(name, mode, headsign, arrive_at, station)
-                yield route
+                    route = Route(name, mode, headsign, arrive_at, station)
+                    yield route
 
     query = gql(
     """
