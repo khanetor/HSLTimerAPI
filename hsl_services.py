@@ -35,7 +35,7 @@ async def get_routes(coordinate: Coordinate, radius=500, numDepartures=20) -> It
 
         for stop in parsed:
             coordinate = Coordinate(stop.value['lat'], stop.value['lon'])
-            station = Station(stop.value['lat'], stop.value['lat'], coordinate)
+            station = Station(stop.value['name'], stop.value['code'], coordinate)
 
             for route in stop.value['stoptimesWithoutPatterns']:
                 name = route['trip']['route']['shortName']
