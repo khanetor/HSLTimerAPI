@@ -3,7 +3,7 @@ python:
   - "3.8"
 
 before_install:
-  - openssl aes-256-cbc -K $encrypted_cbe5c368804c_key -iv $encrypted_cbe5c368804c_iv -in myhelsinki-3b2783afc6ac.json.enc -out myhelsinki-3b2783afc6ac.json -d
+  - openssl aes-256-cbc -K $encrypted_286fbecaf8cc_key -iv $encrypted_286fbecaf8cc_iv -in myhelsinki-aaf81aa8a071.json.enc -out myhelsinki-aaf81aa8a071.json -d
 
 install:
   - pip install -r requirements.txt
@@ -13,6 +13,6 @@ script:
 
 deploy:
   provider: gae
-  keyfile: myhelsinki-3b2783afc6ac.json
+  keyfile: myhelsinki-aaf81aa8a071.json
   project: myhelsinki
   edge: true
