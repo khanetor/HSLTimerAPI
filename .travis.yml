@@ -15,5 +15,4 @@ deploy:
   provider: gae
   keyfile: myhelsinki-3b2783afc6ac.json
   project: myhelsinki
-  on: master
   edge: true
