@@ -1,9 +1,7 @@
 language: python
-python:
-  - "3.8"
 
-before_install:
-  - openssl aes-256-cbc -K $encrypted_286fbecaf8cc_key -iv $encrypted_286fbecaf8cc_iv -in myhelsinki-aaf81aa8a071.json.enc -out myhelsinki-aaf81aa8a071.json -d
+python:
+  - '3.8'
 
 install:
   - pip install -r requirements.txt
@@ -16,3 +14,6 @@ deploy:
   keyfile: myhelsinki-aaf81aa8a071.json
   project: myhelsinki
   edge: true
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_286fbecaf8cc_key -iv $encrypted_286fbecaf8cc_iv -in myhelsinki-aaf81aa8a071.json.enc -out myhelsinki-aaf81aa8a071.json -d
