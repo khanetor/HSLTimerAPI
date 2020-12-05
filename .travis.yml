@@ -10,18 +10,8 @@ script:
   - echo "Ready to deploy"
 
 deploy:
-<<<<<<< HEAD
   provider: heroku
   api_key:
     secure: Flw5LyjbjKV5vP+gj2JbJhbL4SfqpbaTUlvB95Dm8aoP9Ikr7JCOxtw+mZ+UU+KbvirH4M4FcEyLEyBvViNvxefBxvXEgj5xaT2K5WWDjFK5iimFbNjDx5upfu+HtLS5PckzfGVQwUBoZE5bHusR1hKsNVgOVgUwkbKv9tKPVKiWkoskvc4eEU6khr+AKE2BEhd1x+KW4rtdID1jLyrVM3v4y2XZa92BUwCpHrH2TfgzqPm0E/MLO3vky1wWxj0MJIc2Y0kxooDl+mO0adiQeUQ5c6QRK751Hzg2rikCA958e11m2G/vMOPOvv0yhNv9xrzcnYUYFeQDKwPAar3DIEXYKmNHHM9ATOeWOh3uM2u+ifcDG7RVfl8q0EU063TXotrpnEGYrPyYhrL/96WXVucQySoR4Ckm1Ofe5s+4Eb8tisSb/uhWDscN9CTpxR8D8w+oYfPTTYd6zPe4GAJTuk18tWuDcvIlq3X9p+uY8U03C2EJryY37Wj9PWJbEFYOGGhAUw37UH4g/hnCzw23Jdwa/TUW3zNdsV662wkJnlH+aM5m2BUKxyKC6s+vulNKzPtD8D4ZDumWi4vrjD0uW2f26T5sxtA46XXpndeYPayDivbNUVhPi+kXkLKWMJz9b+zHSTrHuvBjmpI/Svwy73wN/z+QhWNAKdLB8XLsfjQ=
   app:
     master: hsl-timer-api
-=======
-  provider: gae
-  keyfile: helsinki-city-7df0cb6f9164.json
-  project: helsinki-city
-  edge: true
-
-before_install:
-  - openssl aes-256-cbc -K $encrypted_19855a5ccdcb_key -iv $encrypted_19855a5ccdcb_iv -in helsinki-city-7df0cb6f9164.json.enc -out helsinki-city-7df0cb6f9164.json -d
->>>>>>> b5628b8 (another fix)
