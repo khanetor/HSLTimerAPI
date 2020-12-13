@@ -3,9 +3,6 @@ import time
 
 from fastapi import FastAPI
 
-from location_services import find_coordinate, Address, Coordinate
-from hsl_services import get_routes
-
 from routers import hsl_v1
 
 app = FastAPI(

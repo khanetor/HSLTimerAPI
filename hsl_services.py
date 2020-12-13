@@ -1,5 +1,5 @@
 from typing import Iterable
-from dataclasses import dataclass
+from pydantic import BaseModel
 
 from gql import gql, Client
 from gql.transport.aiohttp import AIOHTTPTransport
@@ -11,15 +11,13 @@ from location_services import Coordinate
 transport = AIOHTTPTransport(url='https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql')
 
 
-@dataclass
-class Station:
+class Station(BaseModel):
     name: str
     code: str
     position: Coordinate
 
 
-@dataclass
-class Route:
+class Route(BaseModel):
     name: str
     mode: str
     headsign: str
@@ -34,18 +32,23 @@ async def get_routes(coordinate: Coordinate, radius=500, numDepartures=20) -> It
         parsed = jsonpath_expr.find(json)
 
         for stop in parsed:
-            coordinate = Coordinate(stop.value['lat'], stop.value['lon'])
-            station = Station(stop.value['name'], stop.value['code'], coordinate)
+            if stop.value['code'] is None:
+                continue
+
+            coordinate = Coordinate(lat=stop.value['lat'], lon=stop.value['lon'])
+            station = Station(name=stop.value['name'], code=stop.value['code'], position=coordinate)
 
             for route in stop.value['stoptimesWithoutPatterns']:
-                if route['headsign'] is not None:
-                    name = route['trip']['route']['shortName']
-                    mode = route['trip']['route']['mode']
-                    headsign = route['headsign']
-                    arrive_at = route['serviceDay'] + route['realtimeArrival']
+                if route['headsign'] is None:
+                    continue
 
-                    route = Route(name, mode, headsign, arrive_at, station)
-                    yield route
+                name = route['trip']['route']['shortName']
+                mode = route['trip']['route']['mode']
+                headsign = route['headsign']
+                arrive_at = route['serviceDay'] + route['realtimeArrival']
+
+                route = Route(name=name, mode=mode, headsign=headsign, arrive_at=arrive_at, stop=station)
+                yield route
 
     query = gql(
     """
