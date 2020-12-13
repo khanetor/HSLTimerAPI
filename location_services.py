@@ -1,16 +1,15 @@
 import httpx
-from dataclasses import dataclass
+from pydantic import BaseModel
 
 
-@dataclass
-class Address:
+class Address(BaseModel):
     street: str
     city: str
     country: str
     postalCode: str
 
-@dataclass
-class Coordinate:
+
+class Coordinate(BaseModel):
     lat: float
     lon: float
 
@@ -31,9 +30,8 @@ async def find_coordinate(address: Address) -> Coordinate:
         if len(data) == 0:
             raise "Cannot find coordinate"
         location = data[0]
-        lat = location['lat']
-        lon = location['lon']
-        return Coordinate(lat, lon)
+        lat = float(location['lat'])
+        lon = float(location['lon'])
+        return Coordinate(lat=lat, lon=lon)
     else:
         raise "Error while looking up coordinate"
-
