@@ -19,16 +19,9 @@ jobs:
       - name: Deploy to Heroku
         uses: AkhileshNS/heroku-deploy@v3.12.12
         with:
-          # This will be used for authentication. You can find it in your heroku homepage account settings
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          # Email that you use with heroku
           heroku_email: nlhkha@gmail.com
-          # The appname to use for deploying/updating
           heroku_app_name: hsl-timer-api
-          buildpack: heroku/python
-          # Contents of the Procfile to save and deploy
-          procfile: |
-            web: uvicorn main:app --host=0.0.0.0 --port=${PORT:-5000}
-          # The region in which you would like to deploy a server
+          buildpack: https://github.com/heroku/heroku-buildpack-python
           region: eu
           stack: heroku-20
